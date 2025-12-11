@@ -40,10 +40,15 @@ const props = defineProps<RealTimeChartsProps>();
 const getOptions = (unit: string) => ({
   responsive: true,
   maintainAspectRatio: false,
+  interaction: {
+    mode: 'index' as const,
+    intersect: false,
+  },
   scales: {
     y: {
       grid: {
-        color: 'rgba(125, 211, 252, 0.15)'
+        color: 'rgba(125, 211, 252, 0.1)',
+        borderDash: [4, 4]
       },
       ticks: {
         color: 'rgba(186, 230, 253, 0.8)'
@@ -54,7 +59,8 @@ const getOptions = (unit: string) => ({
     },
     x: {
       grid: {
-        display: false
+        color: 'rgba(125, 211, 252, 0.1)',
+        borderDash: [4, 4]
       },
       ticks: {
         color: 'rgba(186, 230, 253, 0.8)'
@@ -64,19 +70,44 @@ const getOptions = (unit: string) => ({
       }
     }
   },
+  elements: {
+    point: {
+      radius: 0,
+      hoverRadius: 6,
+      hoverBorderWidth: 2,
+      hoverBorderColor: '#ffffff'
+    },
+    line: {
+      borderWidth: 2,
+      tension: 0.4
+    }
+  },
   plugins: {
     legend: {
       display: false
     },
     tooltip: {
-      backgroundColor: 'rgba(30, 41, 59, 0.95)',
+      backgroundColor: 'rgba(15, 23, 42, 0.95)', // Slate 900
       titleColor: '#e0f2fe',
       bodyColor: '#e0f2fe',
       borderColor: 'rgba(125, 211, 252, 0.3)',
       borderWidth: 1,
-      padding: 10,
+      padding: 12,
+      displayColors: false,
+      titleFont: {
+        size: 14,
+        weight: 'bold' as const
+      },
+      bodyFont: {
+        size: 14
+      },
       callbacks: {
-        label: (context: any) => `${context.parsed.y.toFixed(2)} ${unit}`
+        title: (context: any) => {
+          return context[0].label; // Displays the time (e.g., 00:45:54)
+        },
+        label: (context: any) => {
+          return `${context.dataset.label || 'Value'} : ${context.parsed.y.toFixed(2)} ${unit}`;
+        }
       }
     }
   }
@@ -114,6 +145,7 @@ const getChartData = (data: ChartDataPoint[], color: string) => ({
   labels: data.map(d => d.time),
   datasets: [
     {
+      label: 'Value', // Default label for tooltip
       data: data.map(d => d.value),
       borderColor: color,
       backgroundColor: color,

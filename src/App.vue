@@ -86,7 +86,7 @@ onUnmounted(() => {
 
       <!-- Mini Game -->
       <div class="bg-sky-400/10 backdrop-blur-md rounded-xl border border-sky-300/20 p-6">
-        <h2 class="text-sky-100 text-2xl mb-4">Take a Break - Dino Game</h2>
+        <h2 class="text-sky-100 text-2xl mb-4">Mini Game</h2>
         <DinoGame ref="dinoGameRef" />
       </div>
     </div>

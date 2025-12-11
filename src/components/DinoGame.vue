@@ -117,7 +117,7 @@ const resetGame = () => {
   game.obstacles = [];
   game.particles = [];
   game.score = 0;
-  game.gameSpeed = 6; // Slightly faster start
+  game.gameSpeed = 10; // Slightly faster start
   game.obstacleTimer = 0;
   game.obstacleInterval = 90;
   game.isRunning = true;
